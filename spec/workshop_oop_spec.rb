@@ -19,22 +19,25 @@ RSpec.describe WorkshopOop do
     }
   }
 
-  before do
-    stub_request(:get, /http:\/\/ip-api.com\/json\//).
-      to_return(status: 200, body: geo_data.to_json)
-  end
+  let(:fake_http_service) {
+    -> _uri { geo_data.to_json }
+  }
+
+  let(:geo_data_service) {
+    WorkshopOop::GeoData.new(fake_http_service)
+  }
 
   it "has a version number" do
     expect(WorkshopOop::VERSION).not_to be nil
   end
 
   it "returns geo data" do
-    expect(WorkshopOop::GeoIp.geo_by_ip(ip_address)).to eq geo_data.to_yaml
+    expect(geo_data_service.by_ip(ip_address)).to eq geo_data.to_yaml
   end
 
   context "when ip_address is absent" do
     it "returns self ip geo data" do
-      expect(WorkshopOop::GeoIp.geo_by_ip).to eq geo_data.to_yaml
+      expect(geo_data_service.by_ip).to eq geo_data.to_yaml
     end
   end
 end

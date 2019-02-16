@@ -6,34 +6,25 @@ require "yaml"
 module WorkshopOop
   class Error < StandardError; end
 
-  def self.make_geo_request
-    -> ip_address = nil {
+  class GeoData
+    attr_reader :http_request_service
+
+    def self.build
+      http_request_service =  -> uri { open(uri).read }
+      new(http_request_service)
+    end
+
+    def initialize http_request_service
+      @http_request_service = http_request_service
+    end
+
+    def by_ip ip_address = nil
       uri = URI.parse("http://ip-api.com/json/#{ip_address}")
-      response_body = open(uri).read
-
-      JSON.parse response_body, symbolize_names: true
-    }
-  end
-
-  class GeoIp
-    attr_reader :geo_service
-
-    def self.build geo_service = WorkshopOop.make_geo_request
-      new(geo_service)
-    end
-
-    def initialize geo_service
-      @geo_service = geo_service
-    end
-
-    def get_geo_by_ip ip_address = nil
-      geo_service.call(ip_address)
-    end
-
-    def self.geo_by_ip ip_address = nil
-      geo_ip = build
-      geo_data = geo_ip.get_geo_by_ip(ip_address)
+      response_body = http_request_service.call(uri)
+      geo_data = JSON.parse response_body, symbolize_names: true
       geo_data.to_yaml
+    rescue OpenURI::HTTPError, JSON::JSONError => error
+      error
     end
   end
 end
