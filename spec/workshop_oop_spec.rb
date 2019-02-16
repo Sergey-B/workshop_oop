@@ -32,12 +32,12 @@ RSpec.describe WorkshopOop do
   end
 
   it "returns geo data" do
-    expect(geo_data_service.by_ip(ip_address)).to eq geo_data.to_yaml
+    expect(geo_data_service.by_ip(ip_address)).to eq geo_data
   end
 
   context "when ip_address is absent" do
     it "returns self ip geo data" do
-      expect(geo_data_service.by_ip).to eq geo_data.to_yaml
+      expect(geo_data_service.by_ip).to eq geo_data
     end
   end
 end

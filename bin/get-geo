@@ -1,7 +1,7 @@
 #! /usr/bin/env ruby
 
 require "optparse"
-require "pp"
+require "yaml"
 
 $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), "/../lib"))
 require "workshop_oop"
@@ -20,4 +20,5 @@ OptionParser.new do |o|
   end
 end.parse!
 
-puts WorkshopOop::GeoData.build.by_ip ARGV.first
+geo_data = WorkshopOop::GeoData.build.by_ip ARGV.first
+puts geo_data.to_yaml
