@@ -1,5 +1,3 @@
-require "workshop_oop"
-
 RSpec.describe WorkshopOop do
   let(:ip_address) { "134.234.3.2" }
   let(:geo_data) {
@@ -20,25 +18,23 @@ RSpec.describe WorkshopOop do
       zip: "85613"
     }
   }
-  let(:geo_service) {
-    double("GeoService", call: geo_data)
-  }
 
-  let(:workshop_lib) {
-    WorkshopOop::GetGeoService.build(geo_service)
-  }
+  before do
+    stub_request(:get, /http:\/\/ip-api.com\/json\//).
+      to_return(status: 200, body: geo_data.to_json)
+  end
 
   it "has a version number" do
     expect(WorkshopOop::VERSION).not_to be nil
   end
 
   it "returns geo data" do
-    expect(workshop_lib.get_geo(ip_address)).to eq geo_data
+    expect(WorkshopOop::GeoIp.geo_by_ip(ip_address)).to eq geo_data
   end
 
   context "when ip_address is absent" do
     it "returns self ip geo data" do
-      expect(workshop_lib.get_geo).to eq geo_data
+      expect(WorkshopOop::GeoIp.geo_by_ip).to eq geo_data
     end
   end
 end

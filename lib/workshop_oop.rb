@@ -1,7 +1,6 @@
 require "workshop_oop/version"
 require "open-uri"
 require "json"
-require "ostruct"
 
 module WorkshopOop
   class Error < StandardError; end
@@ -9,12 +8,13 @@ module WorkshopOop
   def self.make_geo_request
     -> ip_address = nil {
       uri = URI.parse("http://ip-api.com/json/#{ip_address}")
-      response_body = uri.read
+      response_body = open(uri).read
+
       JSON.parse response_body, symbolize_names: true
     }
   end
 
-  class GetGeoService
+  class GeoIp
     attr_reader :geo_service
 
     def self.build geo_service = WorkshopOop.make_geo_request
@@ -25,8 +25,13 @@ module WorkshopOop
       @geo_service = geo_service
     end
 
-    def get_geo ip_address = nil
+    def get_geo_by_ip ip_address = nil
       geo_service.call(ip_address)
+    end
+
+    def self.geo_by_ip ip_address = nil
+      geo_ip = build
+      geo_ip.get_geo_by_ip ip_address
     end
   end
 end

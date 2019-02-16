@@ -6,7 +6,6 @@ require "pp"
 $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), "/../lib"))
 require "workshop_oop"
 
-options = {}
 OptionParser.new do |o|
   o.banner = "USAGE: #{$PROGRAM_NAME} [url]"
 
@@ -21,4 +20,4 @@ OptionParser.new do |o|
   end
 end.parse!
 
-pp WorkshopOop::GetGeoService.build.get_geo
+pp WorkshopOop::GeoIp.geo_by_ip ARGV.first
