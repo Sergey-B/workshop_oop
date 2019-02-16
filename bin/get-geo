@@ -2,6 +2,7 @@
 
 require "optparse"
 require "yaml"
+require "open-uri"
 
 $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), "/../lib"))
 require "workshop_oop"
@@ -20,5 +21,11 @@ OptionParser.new do |o|
   end
 end.parse!
 
-geo_data = WorkshopOop::GeoData.build.by_ip ARGV.first
-puts geo_data.to_yaml
+begin
+  geo_data = WorkshopOop::GeoData.build.by_ip ARGV.first
+  puts geo_data.to_yaml
+rescue JSON::JSONError => error
+  puts error.inspect
+rescue OpenURI::HTTPError => error
+  puts error.inspect
+end

@@ -21,8 +21,6 @@ module WorkshopOop
       uri = URI.parse("http://ip-api.com/json/#{ip_address}")
       response_body = http_request_service.call(uri)
       JSON.parse response_body, symbolize_names: true
-    rescue OpenURI::HTTPError, JSON::JSONError => error
-      error
     end
   end
 end
