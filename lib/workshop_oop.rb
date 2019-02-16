@@ -1,6 +1,7 @@
 require "workshop_oop/version"
 require "open-uri"
 require "json"
+require "yaml"
 
 module WorkshopOop
   class Error < StandardError; end
@@ -31,7 +32,8 @@ module WorkshopOop
 
     def self.geo_by_ip ip_address = nil
       geo_ip = build
-      geo_ip.get_geo_by_ip ip_address
+      geo_data = geo_ip.get_geo_by_ip(ip_address)
+      geo_data.to_yaml
     end
   end
 end

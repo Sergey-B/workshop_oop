@@ -29,12 +29,12 @@ RSpec.describe WorkshopOop do
   end
 
   it "returns geo data" do
-    expect(WorkshopOop::GeoIp.geo_by_ip(ip_address)).to eq geo_data
+    expect(WorkshopOop::GeoIp.geo_by_ip(ip_address)).to eq geo_data.to_yaml
   end
 
   context "when ip_address is absent" do
     it "returns self ip geo data" do
-      expect(WorkshopOop::GeoIp.geo_by_ip).to eq geo_data
+      expect(WorkshopOop::GeoIp.geo_by_ip).to eq geo_data.to_yaml
     end
   end
 end

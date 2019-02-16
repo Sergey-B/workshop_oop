@@ -20,4 +20,4 @@ OptionParser.new do |o|
   end
 end.parse!
 
-pp WorkshopOop::GeoIp.geo_by_ip ARGV.first
+puts WorkshopOop::GeoIp.geo_by_ip ARGV.first
