@@ -1,0 +1,24 @@
+#! /usr/bin/env ruby
+
+require "optparse"
+require "pp"
+
+$LOAD_PATH.unshift(File.join(File.dirname(__FILE__), "/../lib"))
+require "workshop_oop"
+
+options = {}
+OptionParser.new do |o|
+  o.banner = "USAGE: #{$PROGRAM_NAME} [url]"
+
+  o.on("-h", "--help", "Print this help message.") do |h|
+    puts o
+    exit
+  end
+
+  o.on("--version", "Show WorkshopOop version") do |ver|
+    puts "Version: #{WorkshopOop::VERSION}"
+    exit
+  end
+end.parse!
+
+pp WorkshopOop.get_geo(ARGV.first)
