@@ -24,17 +24,21 @@ RSpec.describe WorkshopOop do
     double("GeoService", call: geo_data)
   }
 
+  let(:workshop_lib) {
+    WorkshopOop::GetGeoService.build(geo_service)
+  }
+
   it "has a version number" do
     expect(WorkshopOop::VERSION).not_to be nil
   end
 
   it "returns geo data" do
-    expect(WorkshopOop.get_geo(ip_address, geo_service: geo_service)).to eq geo_data
+    expect(workshop_lib.get_geo(ip_address)).to eq geo_data
   end
 
   context "when ip_address is absent" do
     it "returns self ip geo data" do
-      expect(WorkshopOop.get_geo(geo_service: geo_service)).to eq geo_data
+      expect(workshop_lib.get_geo).to eq geo_data
     end
   end
 end

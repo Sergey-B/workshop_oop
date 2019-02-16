@@ -14,7 +14,19 @@ module WorkshopOop
     }
   end
 
-  def self.get_geo(ip_address = nil, geo_service: make_geo_request)
-    geo_service.call(ip_address)
+  class GetGeoService
+    attr_reader :geo_service
+
+    def self.build geo_service = WorkshopOop.make_geo_request
+      new(geo_service)
+    end
+
+    def initialize geo_service
+      @geo_service = geo_service
+    end
+
+    def get_geo ip_address = nil
+      geo_service.call(ip_address)
+    end
   end
 end

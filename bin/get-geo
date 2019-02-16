@@ -21,4 +21,4 @@ OptionParser.new do |o|
   end
 end.parse!
 
-pp WorkshopOop.get_geo(ARGV.first)
+pp WorkshopOop::GetGeoService.build.get_geo
