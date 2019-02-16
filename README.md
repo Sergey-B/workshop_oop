@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/Sergey-B/workshop_oop.svg?branch=master)](https://travis-ci.org/Sergey-B/workshop_oop)
+
 # WorkshopOop
 
 Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/workshop_oop`. To experiment with that code, run `bin/console` for an interactive prompt.
@@ -22,7 +24,28 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+```
+$ get-geo "134.234.3.2"
+```
+
+```
+{
+  as: "AS1586 DoD Network Information Center",
+  city: "Sierra Vista",
+  country: "United States",
+  countryCode: "US",
+  isp: "DoD Network Information Center",
+  lat: 31.5552,
+  lon: -110.35,
+  org: "USAISC",
+  query: "134.234.3.2",
+  region: "AZ",
+  regionName: "Arizona",
+  status: "success",
+  timezone: "America/Phoenix",
+  zip: "85613"
+}
+```
 
 ## Development
 

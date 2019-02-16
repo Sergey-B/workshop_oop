@@ -21,7 +21,7 @@ RSpec.describe WorkshopOop do
     }
   }
   let(:geo_service) {
-    double("GeoService", call: geo_data.to_json)
+    double("GeoService", call: geo_data)
   }
 
   it "has a version number" do
