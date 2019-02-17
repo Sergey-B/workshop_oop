@@ -1,21 +1,26 @@
+require "dotenv/load"
+
+Dotenv.load
+
 module WorkshopOop
   class WeatherError < StandardError; end
 
   class BasicService
     attr_reader :http_client, :options
-    def initialize http_client
+    def initialize http_client, **options
       @http_client = http_client
+      @options = options
     end
 
-    def self.build
+    def self.build **options
       http_client =  -> uri { open(uri).read }
-      new(http_client)
+      new(http_client, **options)
     end
   end
 
   class OpenWeatherMapCast < BasicService
     def by_location location_name
-      uri = URI.parse("http://samples.openweathermap.org/data/2.5/weather?q=#{location_name},uk&appid=#{ENV["OPENWEATHERMAP_APP_ID"]}")
+      uri = URI.parse("http://samples.openweathermap.org/data/2.5/weather?q=#{location_name},uk&appid=#{options[:app_id]}")
       response_body = http_client.call(uri)
       JSON.parse response_body, symbolize_names: true
     end
@@ -36,7 +41,7 @@ module WorkshopOop
 
   WEATHER_SERVICES = \
     {
-      "openweathermap" => OpenWeatherMapCast.build,
+      "openweathermap" => OpenWeatherMapCast.build(app_id: ENV["OPENWEATHERMAP_APP_ID"]),
       "metaweather" => MetaWeatherCast.build
     }
 
