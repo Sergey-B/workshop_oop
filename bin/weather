@@ -1,0 +1,41 @@
+#! /usr/bin/env ruby
+
+require "optparse"
+require "yaml"
+require "open-uri"
+
+$LOAD_PATH.unshift(File.join(File.dirname(__FILE__), "/../lib"))
+require "workshop_oop"
+
+options = {}
+OptionParser.new do |o|
+  o.banner = "USAGE: #{$PROGRAM_NAME} --service [service_name] location_name"
+
+  o.on("--service [SERVICE]", "Weather cast service: openweathermap (default), metaweather") do |service|
+    options[:service_name] = service
+  end
+
+  o.on("-h", "--help", "Print this help message.") do |h|
+    puts o
+    exit
+  end
+
+  o.on("--version", "Show WorkshopOop version") do |ver|
+    puts "Version: #{WorkshopOop::VERSION}"
+    exit
+  end
+end.parse!
+
+begin
+  if ARGV.empty?
+    STDERR.puts "You need to provide a location name"
+    STDERR.puts "USAGE: #{$PROGRAM_NAME} [options] [location_name]"
+  else
+    geo_data = WorkshopOop::WeatherCast.new.by_location ARGV.first, **options
+    puts geo_data.to_yaml
+  end
+rescue JSON::JSONError => error
+  puts error.inspect
+rescue OpenURI::HTTPError => error
+  puts error.inspect
+end

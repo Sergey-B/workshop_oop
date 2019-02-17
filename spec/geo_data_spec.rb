@@ -27,10 +27,6 @@ RSpec.describe WorkshopOop do
     WorkshopOop::GeoData.new(fake_http_service)
   }
 
-  it "has a version number" do
-    expect(WorkshopOop::VERSION).not_to be nil
-  end
-
   it "returns geo data" do
     expect(geo_data_service.by_ip(ip_address)).to eq geo_data
   end
